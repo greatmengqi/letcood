@@ -16,7 +16,7 @@ class Solution:
 
         c1 = c2 = 0
 
-        lo = 0 #lo为偶数
+        lo = 0  # lo为偶数
         hi = 2 * m  # 添加m+1个空格，故最大值得下标是2m,h1为偶数
 
         while lo <= hi:

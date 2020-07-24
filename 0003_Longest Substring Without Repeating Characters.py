@@ -4,18 +4,21 @@ class Solution:
         :type s: str
         :rtype: int
         """
-        map = dict()
-        len = 0
-        startindex = -1
-        for (index, value) in enumerate(s):
-            if value in map.keys():
-                if startindex < map[value]:
-                    startindex = map[value]
-            if index - startindex > len:
-                len = index - startindex
-            map[value] = index
-        return len
+        if len(s) == 0:
+            return 0
+        start = end = 0
+        max_len = 0
+        index_map = {}
+        while end < len(s):
+            if s[end] in s[start:end]:
+                start = index_map[s[end]] + 1
+            else:
+                index_map[s[end]] = end
+                end = end + 1
+                max_len = max(max_len, end - start)
+
+        return max_len
 
 
 s = Solution()
-print(s.lengthOfLongestSubstring("sssss"))
+print(s.lengthOfLongestSubstring("sssass"))

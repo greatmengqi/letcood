@@ -1,8 +1,20 @@
 # Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+"""
+2. 两数相加
+给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+
+如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+
+您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+示例：
+
+输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+输出：7 -> 0 -> 8
+原因：342 + 465 = 807
+"""
+
+from tools import *
 
 
 class Solution:
@@ -12,62 +24,38 @@ class Solution:
         :type l2: ListNode
         :rtype: ListNode
         """
-        if l1 is None:
-            return l2
-        if l2 is None:
-            return l1
-
-        ans = end = None
+        ans = []
         flag = 0
-
         while l1 and l2:
-            temp = ListNode(0)
-            temp.val = (l1.val + l2.val + flag) % 10
-            flag = (l1.val + l2.val + flag) // 10
-
-            if end is None:
-                ans = end = temp
-            else:
-                end.next = temp
-                end = end.next
-
+            temp = flag + l1.val + l2.val
+            flag = temp // 10
+            temp = temp % 10
+            ans.append(temp)
             l1 = l1.next
             l2 = l2.next
 
-        while flag:
-            if l1:
-                l1.val = (l1.val + flag) % 10
-                flag = (l1.val + flag) // 10
-                end.next = l1
-                l1 = l1.next
-            if l2:
-                l2.val = (l2.val + flag) % 10
-                flag = (l2.val + flag) // 10
-                end.next = l2
-                l2 = l2.next
+        while l1:
+            temp = flag + l1.val
+            flag = temp // 10
+            temp = temp % 10
+            ans.append(temp)
+            l1 = l1.next
 
-        if l1:
-            end.next = l1
-        if l2:
-            end.next = l2
+        while l2:
+            temp = flag + l2.val
+            flag = temp // 10
+            temp = temp % 10
+            ans.append(temp)
+            l2 = l2.next
 
-        return ans
+        if flag:
+            ans.append(flag)
 
-
-def listToListNode(l):
-    ans = end = None
-    for i in l:
-        temp = ListNode(i)
-        if end is None:
-            ans = end = temp
-        else:
-            end.next = temp
-            end = end.next
-    return ans
+        point = head = ListNode(-1)
+        for i in ans:
+            point.next = ListNode(i)
+            point = point.next
+        return head.next
 
 
-l1 = listToListNode([2, 3, 4])
-l2 = listToListNode([7, 8, 9, 10])
-
-s = Solution()
-s.addTwoNumbers(l1, l2)
+print(Solution().addTwoNumbers(array_to_list([2, 4, 3]), array_to_list([5, 6, 4])))
